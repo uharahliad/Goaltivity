@@ -24,6 +24,21 @@ award: {
 
       },
 
+start_date: {
+        type: DataTypes.TEXT,
+
+      },
+
+end_date: {
+        type: DataTypes.TEXT,
+
+      },
+
+reason: {
+        type: DataTypes.TEXT,
+
+      },
+
       importHash: {
         type: DataTypes.STRING(255),
         allowNull: true,

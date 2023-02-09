@@ -112,6 +112,30 @@ const GoalsForm = (props) => {
         />
       </Grid>
 
+      <Grid item>
+        <InputFormItem
+          name={'start_date'}
+          schema={goalsFields}
+
+        />
+      </Grid>
+
+      <Grid item>
+        <InputFormItem
+          name={'end_date'}
+          schema={goalsFields}
+
+        />
+      </Grid>
+
+      <Grid item>
+        <InputFormItem
+          name={'reason'}
+          schema={goalsFields}
+
+        />
+      </Grid>
+
   </Grid>
   <Grid container spacing={3} mt={2}>
     <Grid item>

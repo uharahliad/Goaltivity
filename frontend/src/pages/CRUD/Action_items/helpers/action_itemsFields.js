@@ -32,6 +32,16 @@ const action_itemsFields = {
 
     },
 
+    week: { type: 'string', label: 'Week',
+
+    options: [
+
+    { value: 'value', label: 'value' },
+
+]
+
+    },
+
 }
 
 export default action_itemsFields;

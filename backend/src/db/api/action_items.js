@@ -27,6 +27,11 @@ module.exports = class Action_itemsDBApi {
     null
 ,
 
+    week: data.week
+    ||
+    null
+,
+
   importHash: data.importHash || null,
   createdById: currentUser.id,
   updatedById: currentUser.id,
@@ -58,6 +63,11 @@ module.exports = class Action_itemsDBApi {
 ,
 
         status: data.status
+        ||
+        null
+,
+
+        week: data.week
         ||
         null
 ,
@@ -160,6 +170,17 @@ module.exports = class Action_itemsDBApi {
             'action_items',
             'status',
             filter.status,
+          ),
+        };
+      }
+
+      if (filter.week) {
+        where = {
+          ...where,
+          [Op.and]: Utils.ilike(
+            'action_items',
+            'week',
+            filter.week,
           ),
         };
       }

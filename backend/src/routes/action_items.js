@@ -21,6 +21,9 @@ const router = express.Router();
  *          status:
  *            type: string
  *            default: status
+ *          week:
+ *            type: string
+ *            default: week
 
  */
 

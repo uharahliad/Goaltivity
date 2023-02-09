@@ -21,6 +21,15 @@ const router = express.Router();
  *          award:
  *            type: string
  *            default: award
+ *          start_date:
+ *            type: string
+ *            default: start_date
+ *          end_date:
+ *            type: string
+ *            default: end_date
+ *          reason:
+ *            type: string
+ *            default: reason
 
  */
 

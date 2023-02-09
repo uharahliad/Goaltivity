@@ -42,6 +42,36 @@ const goalsFields = {
 
     },
 
+    start_date: { type: 'string', label: 'Start Date',
+
+    options: [
+
+    { value: 'value', label: 'value' },
+
+]
+
+    },
+
+    end_date: { type: 'string', label: 'End Date',
+
+    options: [
+
+    { value: 'value', label: 'value' },
+
+]
+
+    },
+
+    reason: { type: 'string', label: 'Reason',
+
+    options: [
+
+    { value: 'value', label: 'value' },
+
+]
+
+    },
+
 }
 
 export default goalsFields;
