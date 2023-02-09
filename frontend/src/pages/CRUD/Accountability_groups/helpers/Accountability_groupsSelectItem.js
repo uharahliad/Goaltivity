@@ -5,9 +5,7 @@ import { connect } from 'react-redux';
 
 async function selectList(query, limit) {
   const params = { query, limit };
-  const response = await axios.get(`/accountability_groups/autocomplete`, {
-    params,
-  });
+  const response = await axios.get(`/accountability_groups/autocomplete`, { params });
   return response.data;
 }
 
@@ -32,9 +30,7 @@ const Accountability_groupsSelectItem = (props) => {
         return undefined;
       }
 
-      let label = originalValue.label
-        ? originalValue.label
-        : originalValue.name;
+      let label = originalValue.label ? originalValue.label : originalValue.name;
 
       return {
         id: originalValue.id,
@@ -54,7 +50,10 @@ const Accountability_groupsSelectItem = (props) => {
     },
   };
 
-  const { form, ...rest } = props;
+  const {
+    form,
+    ...rest
+  } = props;
 
   return (
     <React.Fragment>
@@ -67,10 +66,12 @@ const Accountability_groupsSelectItem = (props) => {
       />
     </React.Fragment>
   );
-};
+}
 
 const select = (state) => ({
-  hasPermissionToCreate: state.accountability_groups.hasPermissionToCreate,
+  hasPermissionToCreate: state.accountability_groups.hasPermissionToCreate
 });
 
-export default connect(select)(Accountability_groupsSelectItem);
+export default connect(select)(
+  Accountability_groupsSelectItem,
+);

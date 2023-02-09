@@ -1,3 +1,4 @@
+
 const db = require('../models');
 const FileDBApi = require('./file');
 const crypto = require('crypto');
@@ -7,27 +8,32 @@ const Sequelize = db.Sequelize;
 const Op = Sequelize.Op;
 
 module.exports = class Goal_categoriesDBApi {
+
   static async create(data, options) {
-    const currentUser = (options && options.currentUser) || { id: null };
-    const transaction = (options && options.transaction) || undefined;
+  const currentUser = (options && options.currentUser) || { id: null };
+  const transaction = (options && options.transaction) || undefined;
 
-    const goal_categories = await db.goal_categories.create(
-      {
-        id: data.id || undefined,
+  const goal_categories = await db.goal_categories.create(
+  {
+  id: data.id || undefined,
 
-        name: data.name || null,
-        importHash: data.importHash || null,
-        createdById: currentUser.id,
-        updatedById: currentUser.id,
-      },
-      { transaction },
-    );
+    name: data.name
+    ||
+    null
+,
 
-    return goal_categories;
+  importHash: data.importHash || null,
+  createdById: currentUser.id,
+  updatedById: currentUser.id,
+  },
+  { transaction },
+  );
+
+  return goal_categories;
   }
 
   static async update(id, data, options) {
-    const currentUser = (options && options.currentUser) || { id: null };
+    const currentUser = (options && options.currentUser) || {id: null};
     const transaction = (options && options.transaction) || undefined;
 
     const goal_categories = await db.goal_categories.findByPk(id, {
@@ -36,32 +42,34 @@ module.exports = class Goal_categoriesDBApi {
 
     await goal_categories.update(
       {
-        name: data.name || null,
+
+        name: data.name
+        ||
+        null
+,
+
         updatedById: currentUser.id,
       },
-      { transaction },
+      {transaction},
     );
 
     return goal_categories;
   }
 
   static async remove(id, options) {
-    const currentUser = (options && options.currentUser) || { id: null };
+    const currentUser = (options && options.currentUser) || {id: null};
     const transaction = (options && options.transaction) || undefined;
 
     const goal_categories = await db.goal_categories.findByPk(id, options);
 
-    await goal_categories.update(
-      {
-        deletedBy: currentUser.id,
-      },
-      {
-        transaction,
-      },
-    );
+    await goal_categories.update({
+      deletedBy: currentUser.id
+    }, {
+      transaction,
+    });
 
     await goal_categories.destroy({
-      transaction,
+      transaction
     });
 
     return goal_categories;
@@ -79,7 +87,7 @@ module.exports = class Goal_categoriesDBApi {
       return goal_categories;
     }
 
-    const output = goal_categories.get({ plain: true });
+    const output = goal_categories.get({plain: true});
 
     return output;
   }
@@ -95,7 +103,9 @@ module.exports = class Goal_categoriesDBApi {
 
     const transaction = (options && options.transaction) || undefined;
     let where = {};
-    let include = [];
+    let include = [
+
+    ];
 
     if (filter) {
       if (filter.id) {
@@ -108,7 +118,11 @@ module.exports = class Goal_categoriesDBApi {
       if (filter.name) {
         where = {
           ...where,
-          [Op.and]: Utils.ilike('goal_categories', 'name', filter.name),
+          [Op.and]: Utils.ilike(
+            'goal_categories',
+            'name',
+            filter.name,
+          ),
         };
       }
 
@@ -120,7 +134,9 @@ module.exports = class Goal_categoriesDBApi {
       ) {
         where = {
           ...where,
-          active: filter.active === true || filter.active === 'true',
+          active:
+            filter.active === true ||
+            filter.active === 'true',
         };
       }
 
@@ -149,23 +165,24 @@ module.exports = class Goal_categoriesDBApi {
       }
     }
 
-    let { rows, count } = await db.goal_categories.findAndCountAll({
-      where,
-      include,
-      distinct: true,
-      limit: limit ? Number(limit) : undefined,
-      offset: offset ? Number(offset) : undefined,
-      order:
-        filter.field && filter.sort
+    let { rows, count } = await db.goal_categories.findAndCountAll(
+      {
+        where,
+        include,
+        distinct: true,
+        limit: limit ? Number(limit) : undefined,
+        offset: offset ? Number(offset) : undefined,
+        order: (filter.field && filter.sort)
           ? [[filter.field, filter.sort]]
           : [['createdAt', 'desc']],
-      transaction,
-    });
+        transaction,
+      },
+    );
 
-    //    rows = await this._fillWithRelationsAndFilesForRows(
-    //      rows,
-    //      options,
-    //    );
+//    rows = await this._fillWithRelationsAndFilesForRows(
+//      rows,
+//      options,
+//    );
 
     return { rows, count };
   }
@@ -177,13 +194,17 @@ module.exports = class Goal_categoriesDBApi {
       where = {
         [Op.or]: [
           { ['id']: Utils.uuid(query) },
-          Utils.ilike('goal_categories', 'name', query),
+          Utils.ilike(
+            'goal_categories',
+            'name',
+            query,
+          ),
         ],
       };
     }
 
     const records = await db.goal_categories.findAll({
-      attributes: ['id', 'name'],
+      attributes: [ 'id', 'name' ],
       where,
       limit: limit ? Number(limit) : undefined,
       orderBy: [['name', 'ASC']],
@@ -194,4 +215,6 @@ module.exports = class Goal_categoriesDBApi {
       label: record.name,
     }));
   }
+
 };
+

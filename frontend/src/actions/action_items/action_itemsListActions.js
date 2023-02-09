@@ -13,15 +13,18 @@ async function list(filter) {
 }
 
 async function filterAction_items(request, filter) {
-  const response = await axios.get(
-    `/action_items?page=${filter.page}&limit=${filter.limit}${request}`,
-  );
+  const response = await axios.get(`/action_items?page=${filter.page}&limit=${filter.limit}${request}`);
   return response.data;
 }
 
 const actions = {
-  doFilter: (request, filter) => async (dispatch, getState) => {
+
+  doFilter: (request, filter) => async (
+    dispatch,
+    getState,
+  ) => {
     try {
+
       const response = await filterAction_items(request, filter);
 
       dispatch({
@@ -35,36 +38,37 @@ const actions = {
       Errors.handle(error);
       dispatch({
         type: 'ACTION_ITEMS_LIST_FETCH_ERROR',
-      });
+      })
     }
   },
 
-  doFetch:
-    (filter, keepPagination = false) =>
-    async (dispatch, getState) => {
-      try {
-        dispatch({
-          type: 'ACTION_ITEMS_LIST_FETCH_STARTED',
-          payload: { filter, keepPagination },
-        });
+  doFetch: (filter, keepPagination = false) => async (
+    dispatch,
+    getState,
+  ) => {
+    try {
+      dispatch({
+        type: 'ACTION_ITEMS_LIST_FETCH_STARTED',
+        payload: { filter, keepPagination },
+      });
 
-        const response = await list(filter);
+      const response = await list(filter);
 
-        dispatch({
-          type: 'ACTION_ITEMS_LIST_FETCH_SUCCESS',
-          payload: {
-            rows: response.rows,
-            count: response.count,
-          },
-        });
-      } catch (error) {
-        Errors.handle(error);
+      dispatch({
+        type: 'ACTION_ITEMS_LIST_FETCH_SUCCESS',
+        payload: {
+          rows: response.rows,
+          count: response.count,
+        },
+      });
+    } catch (error) {
+      Errors.handle(error);
 
-        dispatch({
-          type: 'ACTION_ITEMS_LIST_FETCH_ERROR',
-        });
-      }
-    },
+      dispatch({
+        type: 'ACTION_ITEMS_LIST_FETCH_ERROR',
+      });
+    }
+  },
 
   doDelete: (filter, id) => async (dispatch) => {
     try {
@@ -72,7 +76,7 @@ const actions = {
         type: 'ACTION_ITEMS_LIST_DELETE_STARTED',
       });
 
-      await axios.delete(`/action_items/${id}`);
+      await axios.delete(`/action_items/${id}`)
 
       dispatch({
         type: 'ACTION_ITEMS_LIST_DELETE_SUCCESS',
@@ -86,6 +90,7 @@ const actions = {
           count: response.count,
         },
       });
+
     } catch (error) {
       Errors.handle(error);
 
@@ -95,18 +100,19 @@ const actions = {
     }
   },
   doOpenConfirm: (id) => async (dispatch) => {
-    dispatch({
-      type: 'ACTION_ITEMS_LIST_OPEN_CONFIRM',
-      payload: {
-        id: id,
-      },
-    });
+      dispatch({
+        type: 'ACTION_ITEMS_LIST_OPEN_CONFIRM',
+        payload: {
+          id: id
+        },
+      });
   },
   doCloseConfirm: () => async (dispatch) => {
-    dispatch({
-      type: 'ACTION_ITEMS_LIST_CLOSE_CONFIRM',
-    });
+      dispatch({
+        type: 'ACTION_ITEMS_LIST_CLOSE_CONFIRM',
+      });
   },
 };
+
 
 export default actions;

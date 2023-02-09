@@ -17,14 +17,14 @@ const actions = {
         type: 'ACCOUNTABILITY_GROUPS_FORM_FIND_STARTED',
       });
 
-      axios.get(`/accountability_groups/${id}`).then((res) => {
+      axios.get(`/accountability_groups/${id}`).then(res => {
         const record = res.data;
 
         dispatch({
           type: 'ACCOUNTABILITY_GROUPS_FORM_FIND_SUCCESS',
           payload: record,
         });
-      });
+      })
     } catch (error) {
       Errors.handle(error);
 
@@ -42,16 +42,13 @@ const actions = {
         type: 'ACCOUNTABILITY_GROUPS_FORM_CREATE_STARTED',
       });
 
-      axios.post('/accountability_groups', { data: values }).then((res) => {
+      axios.post('/accountability_groups', { data: values }).then(res => {
         dispatch({
           type: 'ACCOUNTABILITY_GROUPS_FORM_CREATE_SUCCESS',
         });
-        showSnackbar({
-          type: 'success',
-          message: 'Accountability_groups created',
-        });
+        showSnackbar({ type: 'success', message: 'Accountability_groups created' });
         dispatch(push('/admin/accountability_groups'));
-      });
+      })
     } catch (error) {
       Errors.handle(error);
 
@@ -61,13 +58,16 @@ const actions = {
     }
   },
 
-  doUpdate: (id, values, isProfile) => async (dispatch, getState) => {
+  doUpdate: (id, values, isProfile) => async (
+    dispatch,
+    getState,
+  ) => {
     try {
       dispatch({
         type: 'ACCOUNTABILITY_GROUPS_FORM_UPDATE_STARTED',
       });
 
-      await axios.put(`/accountability_groups/${id}`, { id, data: values });
+      await axios.put(`/accountability_groups/${id}`, {id, data: values});
 
       dispatch(doInit());
 
@@ -78,10 +78,7 @@ const actions = {
       if (isProfile) {
         showSnackbar({ type: 'success', message: 'Profile updated' });
       } else {
-        showSnackbar({
-          type: 'success',
-          message: 'Accountability_groups updated',
-        });
+        showSnackbar({ type: 'success', message: 'Accountability_groups updated' });
         dispatch(push('/admin/accountability_groups'));
       }
     } catch (error) {

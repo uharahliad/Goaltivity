@@ -7,6 +7,6 @@ const MessagesTablePage = () => {
       <MessagesTable />
     </div>
   );
-};
+}
 
 export default MessagesTablePage;

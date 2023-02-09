@@ -7,6 +7,6 @@ const Goal_categoriesTablePage = () => {
       <Goal_categoriesTable />
     </div>
   );
-};
+}
 
 export default Goal_categoriesTablePage;

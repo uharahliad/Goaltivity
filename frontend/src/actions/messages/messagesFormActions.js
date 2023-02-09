@@ -17,14 +17,14 @@ const actions = {
         type: 'MESSAGES_FORM_FIND_STARTED',
       });
 
-      axios.get(`/messages/${id}`).then((res) => {
+      axios.get(`/messages/${id}`).then(res => {
         const record = res.data;
 
         dispatch({
           type: 'MESSAGES_FORM_FIND_SUCCESS',
           payload: record,
         });
-      });
+      })
     } catch (error) {
       Errors.handle(error);
 
@@ -42,13 +42,13 @@ const actions = {
         type: 'MESSAGES_FORM_CREATE_STARTED',
       });
 
-      axios.post('/messages', { data: values }).then((res) => {
+      axios.post('/messages', { data: values }).then(res => {
         dispatch({
           type: 'MESSAGES_FORM_CREATE_SUCCESS',
         });
         showSnackbar({ type: 'success', message: 'Messages created' });
         dispatch(push('/admin/messages'));
-      });
+      })
     } catch (error) {
       Errors.handle(error);
 
@@ -58,13 +58,16 @@ const actions = {
     }
   },
 
-  doUpdate: (id, values, isProfile) => async (dispatch, getState) => {
+  doUpdate: (id, values, isProfile) => async (
+    dispatch,
+    getState,
+  ) => {
     try {
       dispatch({
         type: 'MESSAGES_FORM_UPDATE_STARTED',
       });
 
-      await axios.put(`/messages/${id}`, { id, data: values });
+      await axios.put(`/messages/${id}`, {id, data: values});
 
       dispatch(doInit());
 

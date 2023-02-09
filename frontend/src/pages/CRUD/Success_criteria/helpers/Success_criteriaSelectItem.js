@@ -5,9 +5,7 @@ import { connect } from 'react-redux';
 
 async function selectList(query, limit) {
   const params = { query, limit };
-  const response = await axios.get(`/success_criteria/autocomplete`, {
-    params,
-  });
+  const response = await axios.get(`/success_criteria/autocomplete`, { params });
   return response.data;
 }
 
@@ -32,9 +30,7 @@ const Success_criteriaSelectItem = (props) => {
         return undefined;
       }
 
-      let label = originalValue.label
-        ? originalValue.label
-        : originalValue.name;
+      let label = originalValue.label ? originalValue.label : originalValue.name;
 
       return {
         id: originalValue.id,
@@ -54,7 +50,10 @@ const Success_criteriaSelectItem = (props) => {
     },
   };
 
-  const { form, ...rest } = props;
+  const {
+    form,
+    ...rest
+  } = props;
 
   return (
     <React.Fragment>
@@ -67,10 +66,12 @@ const Success_criteriaSelectItem = (props) => {
       />
     </React.Fragment>
   );
-};
+}
 
 const select = (state) => ({
-  hasPermissionToCreate: state.success_criteria.hasPermissionToCreate,
+  hasPermissionToCreate: state.success_criteria.hasPermissionToCreate
 });
 
-export default connect(select)(Success_criteriaSelectItem);
+export default connect(select)(
+  Success_criteriaSelectItem,
+);

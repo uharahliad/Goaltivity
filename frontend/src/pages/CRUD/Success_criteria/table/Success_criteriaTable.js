@@ -6,14 +6,14 @@ import * as goalsDataFormat from 'pages/CRUD/Goals/table/GoalsDataFormatters';
 
 import actions from 'actions/success_criteria/success_criteriaListActions';
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import {Link} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
 import { useHistory } from 'react-router';
-import { uniqueId } from 'lodash';
+import {uniqueId} from 'lodash';
 import { withStyles } from '@mui/styles';
-import { makeStyles } from '@mui/styles';
-import { DataGrid } from '@mui/x-data-grid';
-import { Link as LinkMaterial } from '../../../../components/Wrappers';
+import {makeStyles} from "@mui/styles";
+import { DataGrid } from "@mui/x-data-grid";
+import { Link as LinkMaterial} from '../../../../components/Wrappers';
 
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
@@ -22,23 +22,23 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import CloseIcon from '@mui/icons-material/Close';
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import TextField from "@mui/material/TextField";
+import Grid from "@mui/material/Grid";
+import CloseIcon from "@mui/icons-material/Close";
 import Stack from '@mui/material/Stack';
 import LinearProgress from '@mui/material/LinearProgress';
 
 import Widget from 'components/Widget';
 import Actions from '../../../../components/Table/Actions';
-import Dialog from '../../../../components/Dialog';
+import Dialog from "../../../../components/Dialog";
 
 const useStyles = makeStyles({
   container: {
     paddingTop: 10,
-    paddingBottom: 10,
+    paddingBottom: 10
   },
   actions: {
     display: 'flex',
@@ -47,7 +47,7 @@ const useStyles = makeStyles({
     '& a': {
       textDecoration: 'none',
       color: '#fff',
-    },
+    }
   },
 });
 
@@ -58,9 +58,9 @@ const Success_criteriaTable = () => {
   const [width, setWidth] = React.useState(window.innerWidth);
 
   const [filters, setFilters] = React.useState([
-    { label: 'Name', title: 'name' },
+    {label: 'Name', title: 'name'},
 
-    { label: 'Goal', title: 'goal' },
+          {label: 'Goal', title: 'goal'},
   ]);
 
   const [filterItems, setFilterItems] = React.useState([]);
@@ -71,13 +71,9 @@ const Success_criteriaTable = () => {
   const [selectionModel, setSelectionModel] = React.useState([]);
 
   const count = useSelector((store) => store.success_criteria.list.count);
-  const modalOpen = useSelector(
-    (store) => store.success_criteria.list.modalOpen,
-  );
+  const modalOpen = useSelector((store) => store.success_criteria.list.modalOpen);
   const rows = useSelector((store) => store.success_criteria.list.rows);
-  const idToDelete = useSelector(
-    (store) => store.success_criteria.list.idToDelete,
-  );
+  const idToDelete = useSelector((store) => store.success_criteria.list.idToDelete);
 
   const [rowsState, setRowsState] = React.useState({
     page: 0,
@@ -88,7 +84,7 @@ const Success_criteriaTable = () => {
     setLoading(true);
     await dispatch(actions.doFetch({ limit, page, orderBy, request }));
     setLoading(false);
-  };
+  }
 
   React.useEffect(() => {
     loadData(rowsState.pageSize, rowsState.page, sortModel[0], filterUrl);
@@ -98,95 +94,85 @@ const Success_criteriaTable = () => {
     updateWindowDimensions();
     window.addEventListener('resize', updateWindowDimensions);
     return () => window.removeEventListener('resize', updateWindowDimensions);
-  }, []);
+  }, [])
 
   const handleSortModelChange = (newModel) => {
     setSortModel(newModel);
   };
 
   const updateWindowDimensions = () => {
-    setWidth(window.innerWidth);
-  };
+    setWidth(window.innerWidth)
+  }
 
   const handleChange = (id) => (e) => {
     const value = e.target.value;
     const name = e.target.name;
 
-    setFilterItems(
-      filterItems.map((item) =>
-        item.id === id
-          ? { id, fields: { ...item.fields, [name]: value } }
-          : item,
-      ),
-    );
+    setFilterItems(filterItems.map(item =>
+      item.id === id ? { id, fields: { ...item.fields, [name]: value }} : item
+    ));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     let request = '&';
-    filterItems.forEach((item) => {
-      filters[
-        filters.map((filter) => filter.title).indexOf(item.fields.selectedField)
-      ].hasOwnProperty('number')
-        ? (request += `${item.fields.selectedField}Range=${item.fields.filterValueFrom}&${item.fields.selectedField}Range=${item.fields.filterValueTo}&`)
-        : (request += `${item.fields.selectedField}=${item.fields.filterValue}&`);
-    });
+    filterItems.forEach(item => {
+      filters[filters.map(filter => filter.title).indexOf(item.fields.selectedField)].hasOwnProperty('number')
+      ? request += `${item.fields.selectedField}Range=${item.fields.filterValueFrom}&${item.fields.selectedField}Range=${item.fields.filterValueTo}&`
+      : request += `${item.fields.selectedField}=${item.fields.filterValue}&`
+      })
 
     loadData(rowsState.pageSize, 0, sortModel[0], request);
     setFilterUrl(request);
   };
 
   const handleReset = () => {
-    setFilterItems([]);
+    setFilterItems([])
     setFilterUrl('');
-    dispatch(
-      actions.doFetch({ limit: rowsState.pageSize, page: 0, request: '' }),
-    );
-  };
+    dispatch(actions.doFetch({limit: rowsState.pageSize, page: 0, request: '' }));
+  }
 
   const addFilter = () => {
     let newItem = {
-      id: uniqueId(),
-      fields: {
-        filterValue: '',
-        filterValueFrom: '',
-        filterValueTo: '',
-      },
-    };
+        id: uniqueId(),
+        fields: {
+          filterValue: "",
+          filterValueFrom: "",
+          filterValueTo: "",
+        }
+    }
     newItem.fields.selectedField = filters[0].title;
-    setFilterItems([...filterItems, newItem]);
-  };
+    setFilterItems([...filterItems, newItem])
+  }
 
   const deleteFilter = (value) => (e) => {
     e.preventDefault();
     const newItems = filterItems.filter((item) => item.id !== value);
     if (newItems.length) {
-      setFilterItems(newItems);
+        setFilterItems(newItems);
     } else {
-      dispatch(actions.doFetch({ limit: 10, page: 1 }));
-      setFilterItems(newItems);
+        dispatch(actions.doFetch({limit: 10, page: 1}));
+        setFilterItems(newItems);
     }
-  };
+  }
 
   const handleDelete = () => {
-    dispatch(
-      actions.doDelete({ limit: 10, page: 0, request: filterUrl }, idToDelete),
-    );
-  };
+    dispatch(actions.doDelete({ limit: 10, page: 0, request: filterUrl }, idToDelete));
+  }
 
   const openModal = (event, cell) => {
     const id = cell;
     event.stopPropagation();
     dispatch(actions.doOpenConfirm(id));
-  };
+  }
 
   const closeModal = () => {
     dispatch(actions.doCloseConfirm());
-  };
+  }
 
   function NoRowsOverlay() {
     return (
-      <Stack height='100%' alignItems='center' justifyContent='center'>
+      <Stack height="100%" alignItems="center" justifyContent="center">
         No results found
       </Stack>
     );
@@ -194,62 +180,51 @@ const Success_criteriaTable = () => {
 
   function humanize(str) {
     return str
-      .replace(/^[\s_]+|[\s_]+$/g, '')
-      .replace(/[_\s]+/g, ' ')
-      .replace(/^[a-z]/, function (m) {
-        return m.toUpperCase();
-      });
+        .replace(/^[\s_]+|[\s_]+$/g, '')
+        .replace(/[_\s]+/g, ' ')
+        .replace(/^[a-z]/, function(m) { return m.toUpperCase(); });
   }
 
   const columns = [
-    {
-      field: 'name',
 
-      flex: 0.6,
+      { field: "name",
 
-      headerName: 'Name',
-    },
+        flex: 0.6,
 
-    {
-      field: 'goal',
+      headerName: "Name"
+      },
 
-      sortable: false,
-      renderCell: (params) =>
-        goalsDataFormat.listFormatter(
-          params.row[params.field],
-          history,
-          'goals',
-        ),
-      flex: 1,
+      { field: "goal",
 
-      headerName: 'Goal',
-    },
+        sortable: false,
+        renderCell: (params) => goalsDataFormat.listFormatter(params.row[params.field], history, 'goals'),
+        flex: 1,
 
-    {
-      field: 'id',
-      headerName: 'Actions',
-      sortable: false,
-      flex: 0.6,
-      maxWidth: 80,
-      renderCell: (params) => (
-        <Actions
-          classes={classes}
-          entity='success_criteria'
-          openModal={openModal}
-          {...params}
-        />
-      ),
-    },
+      headerName: "Goal"
+      },
+
+      {
+        field: 'id',
+        headerName: 'Actions',
+        sortable: false,
+        flex: 0.6,
+        maxWidth: 80,
+        renderCell: (params) => <Actions classes={classes} entity="success_criteria" openModal={openModal} {...params} />,
+      }
   ];
 
   return (
     <div>
       <Widget title={<h4>{humanize('Success_criteria')}</h4>} disableWidgetMenu>
         <Box className={classes.actions}>
-          <Link to='/admin/success_criteria/new'>
+          <Link to="/admin/success_criteria/new">
             <Button variant='contained'>New</Button>
           </Link>
-          <Button type='button' variant='contained' onClick={addFilter}>
+          <Button
+            type='button'
+            variant="contained"
+            onClick={addFilter}
+          >
             Add Filter
           </Button>
         </Box>
@@ -258,18 +233,18 @@ const Success_criteriaTable = () => {
           {filterItems.map((item) => (
             <Grid
               container
-              alignItems='center'
+              alignItems="center"
               columns={12}
               spacing={1}
               className={classes.container}
             >
               <Grid item xs={3}>
-                <FormControl size='small' fullWidth>
+                <FormControl size="small" fullWidth>
                   <InputLabel>Field</InputLabel>
                   <Select
-                    label='Field'
+                    label="Field"
                     name='selectedField'
-                    size='small'
+                    size="small"
                     value={item.fields.selectedField}
                     onChange={handleChange(item.id)}
                   >
@@ -284,26 +259,24 @@ const Success_criteriaTable = () => {
                   </Select>
                 </FormControl>
               </Grid>
-              {filters
-                .find((filter) => filter.title === item.fields.selectedField)
-                .hasOwnProperty('number') ? (
+              {filters.find(filter => filter.title === item.fields.selectedField).hasOwnProperty('number') ? (
                 <>
                   <Grid item xs={2}>
                     <TextField
-                      label='From'
+                      label="From"
                       type='text'
                       name='filterValueFrom'
-                      size='small'
+                      size="small"
                       fullWidth
                       onChange={handleChange(item.id)}
                     />
                   </Grid>
                   <Grid item xs={2}>
                     <TextField
-                      label='To'
+                      label="To"
                       type='text'
                       name='filterValueTo'
-                      size='small'
+                      size="small"
                       fullWidth
                       onChange={handleChange(item.id)}
                     />
@@ -312,10 +285,10 @@ const Success_criteriaTable = () => {
               ) : (
                 <Grid item xs={4}>
                   <TextField
-                    label='Contained'
+                    label="Contained"
                     type='text'
                     name='filterValue'
-                    size='small'
+                    size="small"
                     fullWidth
                     onChange={handleChange(item.id)}
                   />
@@ -324,8 +297,8 @@ const Success_criteriaTable = () => {
 
               <Grid item xs={2}>
                 <Button
-                  variant='outlined'
-                  color='error'
+                  variant="outlined"
+                  color="error"
                   onClick={deleteFilter(item.id)}
                 >
                   <CloseIcon />
@@ -336,12 +309,19 @@ const Success_criteriaTable = () => {
           {filterItems.length > 0 && (
             <Grid container spacing={1}>
               <Grid item>
-                <Button variant='outlined' onClick={(e) => handleSubmit(e)}>
+                <Button
+                  variant="outlined"
+                  onClick={(e) => handleSubmit(e)}
+                >
                   Apply
                 </Button>
               </Grid>
               <Grid item>
-                <Button color='error' variant='outlined' onClick={handleReset}>
+                <Button
+                  color="error"
+                  variant="outlined"
+                  onClick={handleReset}
+                >
                   Clear
                 </Button>
               </Grid>
@@ -349,44 +329,39 @@ const Success_criteriaTable = () => {
           )}
         </Box>
 
-        <div
-          style={{
-            minHeight: 500,
-            width: '100%',
-            paddingTop: 20,
-            paddingBottom: 20,
-          }}
-        >
+        <div style={{minHeight: 500, width: "100%", paddingTop: 20, paddingBottom: 20}}>
           <DataGrid
             rows={loading ? [] : rows}
             columns={columns}
-            sortingMode='server'
+            sortingMode="server"
             sortModel={sortModel}
             onSortModelChange={handleSortModelChange}
             rowsPerPageOptions={[5, 10, 20, 50, 100]}
             pageSize={5}
+
             pagination
             {...rowsState}
             rowCount={count}
-            paginationMode='server'
-            components={{ NoRowsOverlay, LoadingOverlay: LinearProgress }}
+            paginationMode="server"
+            components={{ NoRowsOverlay, LoadingOverlay: LinearProgress, }}
             onPageChange={(page) => {
-              setRowsState((prev) => ({ ...prev, page }));
+              setRowsState((prev) => ({ ...prev, page }))
             }}
             onPageSizeChange={(pageSize) => {
-              setRowsState((prev) => ({ ...prev, pageSize }));
-            }}
+              setRowsState((prev) => ({ ...prev, pageSize }))
+              }
+            }
+
             onSelectionModelChange={(newSelectionModel) => {
               setSelectionModel(newSelectionModel);
             }}
             selectionModel={selectionModel}
+
             checkboxSelection
             disableSelectionOnClick
             disableColumnMenu
             loading={loading}
-            onRowClick={(e) => {
-              history.push(`/admin/success_criteria/${e.id}/edit`);
-            }}
+            onRowClick={(e) => {history.push(`/admin/success_criteria/${e.id}/edit`)}}
             autoHeight
           />
         </div>
@@ -408,13 +383,13 @@ const Success_criteriaTable = () => {
 
       <Dialog
         open={modalOpen}
-        title='Confirm delete'
-        contentText='Are you sure you want to delete this item?'
+        title="Confirm delete"
+        contentText="Are you sure you want to delete this item?"
         onClose={closeModal}
         onSubmit={handleDelete}
       />
     </div>
-  );
-};
+  )
+}
 
 export default Success_criteriaTable;

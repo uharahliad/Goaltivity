@@ -28,111 +28,114 @@ import Widget from 'components/Widget';
 import UsersSelectItem from 'pages/CRUD/Users/helpers/UsersSelectItem';
 
 const Accountability_groupsForm = (props) => {
+
   const {
-    isEditing,
-    isProfile,
-    findLoading,
-    saveLoading,
-    record,
-    onSubmit,
-    onCancel,
-    modal,
+  isEditing,
+  isProfile,
+  findLoading,
+  saveLoading,
+  record,
+  onSubmit,
+  onCancel,
+  modal
   } = props;
 
   const iniValues = () => {
-    return IniValues(accountability_groupsFields, record || {});
-  };
+  return IniValues(accountability_groupsFields, record || {});
+  }
 
   const formValidations = () => {
-    return FormValidations(accountability_groupsFields, record || {});
-  };
+  return FormValidations(accountability_groupsFields, record || {});
+  }
 
   const handleSubmit = (values) => {
-    const { id, ...data } = PreparedValues(
-      accountability_groupsFields,
-      values || {},
-    );
-    onSubmit(id, data);
+  const { id, ...data } = PreparedValues(accountability_groupsFields, values || {});
+  onSubmit(id, data);
   };
 
   const title = () => {
-    if (isProfile) {
-      return 'Edit My Profile';
-    }
+  if(isProfile) {
+  return 'Edit My Profile';
+  }
 
-    return isEditing
-      ? 'Edit Accountability_groups'
-      : 'Add Accountability_groups';
+  return isEditing
+  ? 'Edit Accountability_groups'
+  : 'Add Accountability_groups';
   };
 
   const renderForm = () => (
-    <Widget title={<h4>{title()}</h4>} collapse close>
-      <Formik
-        onSubmit={handleSubmit}
-        initialValues={iniValues()}
-        validationSchema={formValidations()}
-      >
-        {(form) => (
-          <form onSubmit={form.handleSubmit}>
-            <Grid container spacing={3} direction='column'>
-              <Grid item>
-                <InputFormItem
-                  name={'name'}
-                  schema={accountability_groupsFields}
-                  autoFocus
-                />
-              </Grid>
+  <Widget title={<h4>{title()}</h4>} collapse close>
+  <Formik
+          onSubmit={handleSubmit}
+  initialValues={iniValues()}
+  validationSchema={formValidations()}
+  >
+  {(form) => (
+  <form onSubmit={form.handleSubmit}>
+    <Grid container spacing={3} direction="column">
 
-              <Grid item>
-                <UsersSelectItem
-                  name={'users'}
-                  schema={accountability_groupsFields}
-                  showCreate={!modal}
-                  multiple
-                  form={form}
-                />
-              </Grid>
-            </Grid>
-            <Grid container spacing={3} mt={2}>
-              <Grid item>
-                <Button
-                  color='primary'
-                  variant='contained'
-                  onClick={form.handleSubmit}
-                >
-                  Save
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button
-                  color='primary'
-                  variant='outlined'
-                  onClick={form.handleReset}
-                >
-                  Reset
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button
-                  color='primary'
-                  variant='outlined'
-                  onClick={() => onCancel()}
-                >
-                  Cancel
-                </Button>
-              </Grid>
-            </Grid>
-          </form>
-        )}
-      </Formik>
-    </Widget>
+      <Grid item>
+        <InputFormItem
+          name={'name'}
+          schema={accountability_groupsFields}
+
+            autoFocus
+
+        />
+      </Grid>
+
+      <Grid item>
+        <UsersSelectItem
+        name={'users'}
+        schema={accountability_groupsFields}
+        showCreate={!modal}
+        multiple
+        form={form}
+        />
+      </Grid>
+
+  </Grid>
+  <Grid container spacing={3} mt={2}>
+    <Grid item>
+      <Button
+        color="primary"
+        variant="contained"
+        onClick={form.handleSubmit}
+      >
+        Save
+      </Button>
+    </Grid>
+    <Grid item>
+      <Button
+        color="primary"
+        variant="outlined"
+        onClick={form.handleReset}
+      >
+        Reset
+      </Button>
+    </Grid>
+    <Grid item>
+      <Button
+        color="primary"
+        variant="outlined"
+        onClick={() => onCancel()}
+      >
+        Cancel
+      </Button>
+    </Grid>
+  </Grid>
+      </form>
+      )
+      }
+    </Formik>
+  </Widget>
   );
   if (findLoading) {
-    return <Loader />;
+  return <Loader />;
   }
   if (isEditing && !record) {
-    return <Loader />;
+  return <Loader />;
   }
   return renderForm();
-};
-export default Accountability_groupsForm;
+  }
+  export default Accountability_groupsForm;

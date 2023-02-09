@@ -6,24 +6,25 @@ async function list(filter) {
   const response = await axios.get(
     `/accountability_groups?page=${filter.page}&limit=${filter.limit}
 
-    &accountability_groups=${
-      filter.accountability_groups ? filter.accountability_groups : ''
-    }
+    &accountability_groups=${filter.accountability_groups ? filter.accountability_groups : ''}
     &${queryString.stringify(filter.orderBy)}${filter.request}`,
   );
   return response.data;
 }
 
 async function filterAccountability_groups(request, filter) {
-  const response = await axios.get(
-    `/accountability_groups?page=${filter.page}&limit=${filter.limit}${request}`,
-  );
+  const response = await axios.get(`/accountability_groups?page=${filter.page}&limit=${filter.limit}${request}`);
   return response.data;
 }
 
 const actions = {
-  doFilter: (request, filter) => async (dispatch, getState) => {
+
+  doFilter: (request, filter) => async (
+    dispatch,
+    getState,
+  ) => {
     try {
+
       const response = await filterAccountability_groups(request, filter);
 
       dispatch({
@@ -37,36 +38,37 @@ const actions = {
       Errors.handle(error);
       dispatch({
         type: 'ACCOUNTABILITY_GROUPS_LIST_FETCH_ERROR',
-      });
+      })
     }
   },
 
-  doFetch:
-    (filter, keepPagination = false) =>
-    async (dispatch, getState) => {
-      try {
-        dispatch({
-          type: 'ACCOUNTABILITY_GROUPS_LIST_FETCH_STARTED',
-          payload: { filter, keepPagination },
-        });
+  doFetch: (filter, keepPagination = false) => async (
+    dispatch,
+    getState,
+  ) => {
+    try {
+      dispatch({
+        type: 'ACCOUNTABILITY_GROUPS_LIST_FETCH_STARTED',
+        payload: { filter, keepPagination },
+      });
 
-        const response = await list(filter);
+      const response = await list(filter);
 
-        dispatch({
-          type: 'ACCOUNTABILITY_GROUPS_LIST_FETCH_SUCCESS',
-          payload: {
-            rows: response.rows,
-            count: response.count,
-          },
-        });
-      } catch (error) {
-        Errors.handle(error);
+      dispatch({
+        type: 'ACCOUNTABILITY_GROUPS_LIST_FETCH_SUCCESS',
+        payload: {
+          rows: response.rows,
+          count: response.count,
+        },
+      });
+    } catch (error) {
+      Errors.handle(error);
 
-        dispatch({
-          type: 'ACCOUNTABILITY_GROUPS_LIST_FETCH_ERROR',
-        });
-      }
-    },
+      dispatch({
+        type: 'ACCOUNTABILITY_GROUPS_LIST_FETCH_ERROR',
+      });
+    }
+  },
 
   doDelete: (filter, id) => async (dispatch) => {
     try {
@@ -74,7 +76,7 @@ const actions = {
         type: 'ACCOUNTABILITY_GROUPS_LIST_DELETE_STARTED',
       });
 
-      await axios.delete(`/accountability_groups/${id}`);
+      await axios.delete(`/accountability_groups/${id}`)
 
       dispatch({
         type: 'ACCOUNTABILITY_GROUPS_LIST_DELETE_SUCCESS',
@@ -88,6 +90,7 @@ const actions = {
           count: response.count,
         },
       });
+
     } catch (error) {
       Errors.handle(error);
 
@@ -97,18 +100,19 @@ const actions = {
     }
   },
   doOpenConfirm: (id) => async (dispatch) => {
-    dispatch({
-      type: 'ACCOUNTABILITY_GROUPS_LIST_OPEN_CONFIRM',
-      payload: {
-        id: id,
-      },
-    });
+      dispatch({
+        type: 'ACCOUNTABILITY_GROUPS_LIST_OPEN_CONFIRM',
+        payload: {
+          id: id
+        },
+      });
   },
   doCloseConfirm: () => async (dispatch) => {
-    dispatch({
-      type: 'ACCOUNTABILITY_GROUPS_LIST_CLOSE_CONFIRM',
-    });
+      dispatch({
+        type: 'ACCOUNTABILITY_GROUPS_LIST_CLOSE_CONFIRM',
+      });
   },
 };
+
 
 export default actions;

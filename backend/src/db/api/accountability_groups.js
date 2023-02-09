@@ -1,3 +1,4 @@
+
 const db = require('../models');
 const FileDBApi = require('./file');
 const crypto = require('crypto');
@@ -7,31 +8,36 @@ const Sequelize = db.Sequelize;
 const Op = Sequelize.Op;
 
 module.exports = class Accountability_groupsDBApi {
+
   static async create(data, options) {
-    const currentUser = (options && options.currentUser) || { id: null };
-    const transaction = (options && options.transaction) || undefined;
+  const currentUser = (options && options.currentUser) || { id: null };
+  const transaction = (options && options.transaction) || undefined;
 
-    const accountability_groups = await db.accountability_groups.create(
-      {
-        id: data.id || undefined,
+  const accountability_groups = await db.accountability_groups.create(
+  {
+  id: data.id || undefined,
 
-        name: data.name || null,
-        importHash: data.importHash || null,
-        createdById: currentUser.id,
-        updatedById: currentUser.id,
-      },
-      { transaction },
-    );
+    name: data.name
+    ||
+    null
+,
+
+  importHash: data.importHash || null,
+  createdById: currentUser.id,
+  updatedById: currentUser.id,
+  },
+  { transaction },
+  );
 
     await accountability_groups.setUsers(data.users || [], {
-      transaction,
+    transaction,
     });
 
-    return accountability_groups;
+  return accountability_groups;
   }
 
   static async update(id, data, options) {
-    const currentUser = (options && options.currentUser) || { id: null };
+    const currentUser = (options && options.currentUser) || {id: null};
     const transaction = (options && options.transaction) || undefined;
 
     const accountability_groups = await db.accountability_groups.findByPk(id, {
@@ -40,10 +46,15 @@ module.exports = class Accountability_groupsDBApi {
 
     await accountability_groups.update(
       {
-        name: data.name || null,
+
+        name: data.name
+        ||
+        null
+,
+
         updatedById: currentUser.id,
       },
-      { transaction },
+      {transaction},
     );
 
     await accountability_groups.setUsers(data.users || [], {
@@ -54,25 +65,19 @@ module.exports = class Accountability_groupsDBApi {
   }
 
   static async remove(id, options) {
-    const currentUser = (options && options.currentUser) || { id: null };
+    const currentUser = (options && options.currentUser) || {id: null};
     const transaction = (options && options.transaction) || undefined;
 
-    const accountability_groups = await db.accountability_groups.findByPk(
-      id,
-      options,
-    );
+    const accountability_groups = await db.accountability_groups.findByPk(id, options);
 
-    await accountability_groups.update(
-      {
-        deletedBy: currentUser.id,
-      },
-      {
-        transaction,
-      },
-    );
+    await accountability_groups.update({
+      deletedBy: currentUser.id
+    }, {
+      transaction,
+    });
 
     await accountability_groups.destroy({
-      transaction,
+      transaction
     });
 
     return accountability_groups;
@@ -90,10 +95,10 @@ module.exports = class Accountability_groupsDBApi {
       return accountability_groups;
     }
 
-    const output = accountability_groups.get({ plain: true });
+    const output = accountability_groups.get({plain: true});
 
     output.users = await accountability_groups.getUsers({
-      transaction,
+      transaction
     });
 
     return output;
@@ -111,20 +116,18 @@ module.exports = class Accountability_groupsDBApi {
     const transaction = (options && options.transaction) || undefined;
     let where = {};
     let include = [
+
       {
         model: db.users,
         as: 'users',
-        through: filter.users
-          ? {
-              where: {
-                [Op.or]: filter.users.split('|').map((item) => {
-                  return { ['Id']: Utils.uuid(item) };
-                }),
-              },
-            }
-          : null,
+        through: filter.users ? { where: {
+          [Op.or]: filter.users.split('|').map(item => {
+            return { ['Id']: Utils.uuid(item) }
+          })
+        }} : null,
         required: filter.users ? true : null,
       },
+
     ];
 
     if (filter) {
@@ -138,7 +141,11 @@ module.exports = class Accountability_groupsDBApi {
       if (filter.name) {
         where = {
           ...where,
-          [Op.and]: Utils.ilike('accountability_groups', 'name', filter.name),
+          [Op.and]: Utils.ilike(
+            'accountability_groups',
+            'name',
+            filter.name,
+          ),
         };
       }
 
@@ -150,7 +157,9 @@ module.exports = class Accountability_groupsDBApi {
       ) {
         where = {
           ...where,
-          active: filter.active === true || filter.active === 'true',
+          active:
+            filter.active === true ||
+            filter.active === 'true',
         };
       }
 
@@ -179,23 +188,24 @@ module.exports = class Accountability_groupsDBApi {
       }
     }
 
-    let { rows, count } = await db.accountability_groups.findAndCountAll({
-      where,
-      include,
-      distinct: true,
-      limit: limit ? Number(limit) : undefined,
-      offset: offset ? Number(offset) : undefined,
-      order:
-        filter.field && filter.sort
+    let { rows, count } = await db.accountability_groups.findAndCountAll(
+      {
+        where,
+        include,
+        distinct: true,
+        limit: limit ? Number(limit) : undefined,
+        offset: offset ? Number(offset) : undefined,
+        order: (filter.field && filter.sort)
           ? [[filter.field, filter.sort]]
           : [['createdAt', 'desc']],
-      transaction,
-    });
+        transaction,
+      },
+    );
 
-    //    rows = await this._fillWithRelationsAndFilesForRows(
-    //      rows,
-    //      options,
-    //    );
+//    rows = await this._fillWithRelationsAndFilesForRows(
+//      rows,
+//      options,
+//    );
 
     return { rows, count };
   }
@@ -207,13 +217,17 @@ module.exports = class Accountability_groupsDBApi {
       where = {
         [Op.or]: [
           { ['id']: Utils.uuid(query) },
-          Utils.ilike('accountability_groups', 'name', query),
+          Utils.ilike(
+            'accountability_groups',
+            'name',
+            query,
+          ),
         ],
       };
     }
 
     const records = await db.accountability_groups.findAll({
-      attributes: ['id', 'name'],
+      attributes: [ 'id', 'name' ],
       where,
       limit: limit ? Number(limit) : undefined,
       orderBy: [['name', 'ASC']],
@@ -224,4 +238,6 @@ module.exports = class Accountability_groupsDBApi {
       label: record.name,
     }));
   }
+
 };
+
