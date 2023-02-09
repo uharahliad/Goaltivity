@@ -27,6 +27,21 @@ module.exports = class GoalsDBApi {
     null
 ,
 
+    start_date: data.start_date
+    ||
+    null
+,
+
+    end_date: data.end_date
+    ||
+    null
+,
+
+    reason: data.reason
+    ||
+    null
+,
+
   importHash: data.importHash || null,
   createdById: currentUser.id,
   updatedById: currentUser.id,
@@ -62,6 +77,21 @@ module.exports = class GoalsDBApi {
 ,
 
         award: data.award
+        ||
+        null
+,
+
+        start_date: data.start_date
+        ||
+        null
+,
+
+        end_date: data.end_date
+        ||
+        null
+,
+
+        reason: data.reason
         ||
         null
 ,
@@ -177,6 +207,39 @@ module.exports = class GoalsDBApi {
             'goals',
             'award',
             filter.award,
+          ),
+        };
+      }
+
+      if (filter.start_date) {
+        where = {
+          ...where,
+          [Op.and]: Utils.ilike(
+            'goals',
+            'start_date',
+            filter.start_date,
+          ),
+        };
+      }
+
+      if (filter.end_date) {
+        where = {
+          ...where,
+          [Op.and]: Utils.ilike(
+            'goals',
+            'end_date',
+            filter.end_date,
+          ),
+        };
+      }
+
+      if (filter.reason) {
+        where = {
+          ...where,
+          [Op.and]: Utils.ilike(
+            'goals',
+            'reason',
+            filter.reason,
           ),
         };
       }

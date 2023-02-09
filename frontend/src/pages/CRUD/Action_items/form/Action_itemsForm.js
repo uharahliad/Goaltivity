@@ -101,6 +101,14 @@ const Action_itemsForm = (props) => {
         />
       </Grid>
 
+      <Grid item>
+        <InputFormItem
+          name={'week'}
+          schema={action_itemsFields}
+
+        />
+      </Grid>
+
   </Grid>
   <Grid container spacing={3} mt={2}>
     <Grid item>

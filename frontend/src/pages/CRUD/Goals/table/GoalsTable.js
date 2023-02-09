@@ -60,7 +60,7 @@ const GoalsTable = () => {
   const [width, setWidth] = React.useState(window.innerWidth);
 
   const [filters, setFilters] = React.useState([
-    {label: 'Name', title: 'name'},{label: 'Award', title: 'award'},
+    {label: 'Name', title: 'name'},{label: 'Award', title: 'award'},{label: 'Start Date', title: 'start_date'},{label: 'End Date', title: 'end_date'},{label: 'Reason', title: 'reason'},
 
           {label: 'Category', title: 'category'},{label: 'Author', title: 'author'},
   ]);
@@ -219,6 +219,27 @@ const GoalsTable = () => {
         flex: 0.6,
 
       headerName: "Award"
+      },
+
+      { field: "start_date",
+
+        flex: 0.6,
+
+      headerName: "Start Date"
+      },
+
+      { field: "end_date",
+
+        flex: 0.6,
+
+      headerName: "End Date"
+      },
+
+      { field: "reason",
+
+        flex: 0.6,
+
+      headerName: "Reason"
       },
 
       {

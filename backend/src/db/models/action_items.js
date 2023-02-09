@@ -24,6 +24,11 @@ status: {
 
       },
 
+week: {
+        type: DataTypes.TEXT,
+
+      },
+
       importHash: {
         type: DataTypes.STRING(255),
         allowNull: true,

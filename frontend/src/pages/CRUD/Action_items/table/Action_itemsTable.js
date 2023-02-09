@@ -58,7 +58,7 @@ const Action_itemsTable = () => {
   const [width, setWidth] = React.useState(window.innerWidth);
 
   const [filters, setFilters] = React.useState([
-    {label: 'Name', title: 'name'},{label: 'Status', title: 'status'},
+    {label: 'Name', title: 'name'},{label: 'Status', title: 'status'},{label: 'Week', title: 'week'},
 
           {label: 'Goal', title: 'goal'},
   ]);
@@ -208,6 +208,13 @@ const Action_itemsTable = () => {
         flex: 0.6,
 
       headerName: "Status"
+      },
+
+      { field: "week",
+
+        flex: 0.6,
+
+      headerName: "Week"
       },
 
       {
