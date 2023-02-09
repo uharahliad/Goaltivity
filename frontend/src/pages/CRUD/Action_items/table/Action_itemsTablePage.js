@@ -7,6 +7,6 @@ const Action_itemsTablePage = () => {
       <Action_itemsTable />
     </div>
   );
-};
+}
 
 export default Action_itemsTablePage;

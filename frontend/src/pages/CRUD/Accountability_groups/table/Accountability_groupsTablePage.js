@@ -7,6 +7,6 @@ const Accountability_groupsTablePage = () => {
       <Accountability_groupsTable />
     </div>
   );
-};
+}
 
 export default Accountability_groupsTablePage;

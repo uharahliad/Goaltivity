@@ -4,7 +4,7 @@ const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const moment = require('moment');
 
-module.exports = function (sequelize, DataTypes) {
+module.exports = function(sequelize, DataTypes) {
   const success_criteria = sequelize.define(
     'success_criteria',
     {
@@ -14,8 +14,9 @@ module.exports = function (sequelize, DataTypes) {
         primaryKey: true,
       },
 
-      name: {
+name: {
         type: DataTypes.TEXT,
+
       },
 
       importHash: {
@@ -32,6 +33,7 @@ module.exports = function (sequelize, DataTypes) {
   );
 
   success_criteria.associate = (db) => {
+
     db.success_criteria.belongsTo(db.goals, {
       as: 'goal',
       foreignKey: {
@@ -51,3 +53,4 @@ module.exports = function (sequelize, DataTypes) {
 
   return success_criteria;
 };
+

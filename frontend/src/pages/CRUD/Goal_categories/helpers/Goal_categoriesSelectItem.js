@@ -30,9 +30,7 @@ const Goal_categoriesSelectItem = (props) => {
         return undefined;
       }
 
-      let label = originalValue.label
-        ? originalValue.label
-        : originalValue.name;
+      let label = originalValue.label ? originalValue.label : originalValue.name;
 
       return {
         id: originalValue.id,
@@ -52,7 +50,10 @@ const Goal_categoriesSelectItem = (props) => {
     },
   };
 
-  const { form, ...rest } = props;
+  const {
+    form,
+    ...rest
+  } = props;
 
   return (
     <React.Fragment>
@@ -65,10 +66,12 @@ const Goal_categoriesSelectItem = (props) => {
       />
     </React.Fragment>
   );
-};
+}
 
 const select = (state) => ({
-  hasPermissionToCreate: state.goal_categories.hasPermissionToCreate,
+  hasPermissionToCreate: state.goal_categories.hasPermissionToCreate
 });
 
-export default connect(select)(Goal_categoriesSelectItem);
+export default connect(select)(
+  Goal_categoriesSelectItem,
+);

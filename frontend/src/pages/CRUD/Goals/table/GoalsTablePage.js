@@ -7,6 +7,6 @@ const GoalsTablePage = () => {
       <GoalsTable />
     </div>
   );
-};
+}
 
 export default GoalsTablePage;

@@ -7,6 +7,6 @@ const Success_criteriaTablePage = () => {
       <Success_criteriaTable />
     </div>
   );
-};
+}
 
 export default Success_criteriaTablePage;

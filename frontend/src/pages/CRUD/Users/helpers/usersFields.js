@@ -1,57 +1,83 @@
+
 const usersFields = {
-  id: { type: 'id', label: 'ID' },
+	id: { type: 'id', label: 'ID' },
 
-  firstName: { type: 'string', label: 'First Name' },
+    firstName: { type: 'string', label: 'First Name',
 
-  lastName: { type: 'string', label: 'Last Name' },
+    },
 
-  phoneNumber: { type: 'string', label: 'Phone Number' },
+    lastName: { type: 'string', label: 'Last Name',
 
-  email: { type: 'string', label: 'E-Mail' },
+    },
 
-  role: {
-    type: 'enum',
-    label: 'Role',
+    phoneNumber: { type: 'string', label: 'Phone Number',
+
+    },
+
+    email: { type: 'string', label: 'E-Mail',
+
+    },
+
+    role: { type: 'enum', label: 'Role',
 
     options: [
-      { value: 'admin', label: 'admin' },
 
-      { value: 'user', label: 'user' },
-    ],
-  },
+    { value: 'admin', label: 'admin' },
 
-  disabled: { type: 'boolean', label: 'Disabled' },
+    { value: 'user', label: 'user' },
 
-  avatar: { type: 'images', label: 'Avatar' },
+]
 
-  password: { type: 'string', label: 'Password' },
+    },
 
-  emailVerified: { type: 'boolean', label: 'Email Verified' },
+    disabled: { type: 'boolean', label: 'Disabled',
 
-  emailVerificationToken: { type: 'string', label: 'Email Verification Token' },
+    },
 
-  emailVerificationTokenExpiresAt: {
-    type: 'datetime',
-    label: 'Email Verification Token Expires At',
-  },
+    avatar: { type: 'images', label: 'Avatar',
 
-  passwordResetToken: { type: 'string', label: 'Password Reset Token' },
+    },
 
-  passwordResetTokenExpiresAt: {
-    type: 'datetime',
-    label: 'Password Reset Token Expires At',
-  },
+    password: { type: 'string', label: 'Password',
 
-  provider: { type: 'string', label: 'Provider' },
+    },
 
-  bio: {
-    type: 'string',
-    label: 'Bio',
+    emailVerified: { type: 'boolean', label: 'Email Verified',
 
-    options: [{ value: 'value', label: 'value' }],
-  },
+    },
 
-  password: { type: 'string', label: 'Password' },
-};
+    emailVerificationToken: { type: 'string', label: 'Email Verification Token',
+
+    },
+
+    emailVerificationTokenExpiresAt: { type: 'datetime', label: 'Email Verification Token Expires At',
+
+    },
+
+    passwordResetToken: { type: 'string', label: 'Password Reset Token',
+
+    },
+
+    passwordResetTokenExpiresAt: { type: 'datetime', label: 'Password Reset Token Expires At',
+
+    },
+
+    provider: { type: 'string', label: 'Provider',
+
+    },
+
+    bio: { type: 'string', label: 'Bio',
+
+    options: [
+
+    { value: 'value', label: 'value' },
+
+]
+
+    },
+
+password: { type: 'string', label: 'Password' },
+
+}
 
 export default usersFields;

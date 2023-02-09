@@ -1,3 +1,4 @@
+
 const db = require('../models');
 const FileDBApi = require('./file');
 const crypto = require('crypto');
@@ -7,31 +8,36 @@ const Sequelize = db.Sequelize;
 const Op = Sequelize.Op;
 
 module.exports = class Success_criteriaDBApi {
+
   static async create(data, options) {
-    const currentUser = (options && options.currentUser) || { id: null };
-    const transaction = (options && options.transaction) || undefined;
+  const currentUser = (options && options.currentUser) || { id: null };
+  const transaction = (options && options.transaction) || undefined;
 
-    const success_criteria = await db.success_criteria.create(
-      {
-        id: data.id || undefined,
+  const success_criteria = await db.success_criteria.create(
+  {
+  id: data.id || undefined,
 
-        name: data.name || null,
-        importHash: data.importHash || null,
-        createdById: currentUser.id,
-        updatedById: currentUser.id,
-      },
-      { transaction },
-    );
+    name: data.name
+    ||
+    null
+,
+
+  importHash: data.importHash || null,
+  createdById: currentUser.id,
+  updatedById: currentUser.id,
+  },
+  { transaction },
+  );
 
     await success_criteria.setGoal(data.goal || null, {
-      transaction,
+    transaction,
     });
 
-    return success_criteria;
+  return success_criteria;
   }
 
   static async update(id, data, options) {
-    const currentUser = (options && options.currentUser) || { id: null };
+    const currentUser = (options && options.currentUser) || {id: null};
     const transaction = (options && options.transaction) || undefined;
 
     const success_criteria = await db.success_criteria.findByPk(id, {
@@ -40,10 +46,15 @@ module.exports = class Success_criteriaDBApi {
 
     await success_criteria.update(
       {
-        name: data.name || null,
+
+        name: data.name
+        ||
+        null
+,
+
         updatedById: currentUser.id,
       },
-      { transaction },
+      {transaction},
     );
 
     await success_criteria.setGoal(data.goal || null, {
@@ -54,22 +65,19 @@ module.exports = class Success_criteriaDBApi {
   }
 
   static async remove(id, options) {
-    const currentUser = (options && options.currentUser) || { id: null };
+    const currentUser = (options && options.currentUser) || {id: null};
     const transaction = (options && options.transaction) || undefined;
 
     const success_criteria = await db.success_criteria.findByPk(id, options);
 
-    await success_criteria.update(
-      {
-        deletedBy: currentUser.id,
-      },
-      {
-        transaction,
-      },
-    );
+    await success_criteria.update({
+      deletedBy: currentUser.id
+    }, {
+      transaction,
+    });
 
     await success_criteria.destroy({
-      transaction,
+      transaction
     });
 
     return success_criteria;
@@ -87,10 +95,10 @@ module.exports = class Success_criteriaDBApi {
       return success_criteria;
     }
 
-    const output = success_criteria.get({ plain: true });
+    const output = success_criteria.get({plain: true});
 
     output.goal = await success_criteria.getGoal({
-      transaction,
+      transaction
     });
 
     return output;
@@ -108,10 +116,12 @@ module.exports = class Success_criteriaDBApi {
     const transaction = (options && options.transaction) || undefined;
     let where = {};
     let include = [
+
       {
         model: db.goals,
         as: 'goal',
       },
+
     ];
 
     if (filter) {
@@ -125,7 +135,11 @@ module.exports = class Success_criteriaDBApi {
       if (filter.name) {
         where = {
           ...where,
-          [Op.and]: Utils.ilike('success_criteria', 'name', filter.name),
+          [Op.and]: Utils.ilike(
+            'success_criteria',
+            'name',
+            filter.name,
+          ),
         };
       }
 
@@ -137,18 +151,20 @@ module.exports = class Success_criteriaDBApi {
       ) {
         where = {
           ...where,
-          active: filter.active === true || filter.active === 'true',
+          active:
+            filter.active === true ||
+            filter.active === 'true',
         };
       }
 
       if (filter.goal) {
-        var listItems = filter.goal.split('|').map((item) => {
-          return Utils.uuid(item);
+        var listItems = filter.goal.split('|').map(item => {
+          return  Utils.uuid(item)
         });
 
         where = {
           ...where,
-          goalId: { [Op.or]: listItems },
+          goalId: {[Op.or]: listItems}
         };
       }
 
@@ -177,23 +193,24 @@ module.exports = class Success_criteriaDBApi {
       }
     }
 
-    let { rows, count } = await db.success_criteria.findAndCountAll({
-      where,
-      include,
-      distinct: true,
-      limit: limit ? Number(limit) : undefined,
-      offset: offset ? Number(offset) : undefined,
-      order:
-        filter.field && filter.sort
+    let { rows, count } = await db.success_criteria.findAndCountAll(
+      {
+        where,
+        include,
+        distinct: true,
+        limit: limit ? Number(limit) : undefined,
+        offset: offset ? Number(offset) : undefined,
+        order: (filter.field && filter.sort)
           ? [[filter.field, filter.sort]]
           : [['createdAt', 'desc']],
-      transaction,
-    });
+        transaction,
+      },
+    );
 
-    //    rows = await this._fillWithRelationsAndFilesForRows(
-    //      rows,
-    //      options,
-    //    );
+//    rows = await this._fillWithRelationsAndFilesForRows(
+//      rows,
+//      options,
+//    );
 
     return { rows, count };
   }
@@ -205,13 +222,17 @@ module.exports = class Success_criteriaDBApi {
       where = {
         [Op.or]: [
           { ['id']: Utils.uuid(query) },
-          Utils.ilike('success_criteria', 'name', query),
+          Utils.ilike(
+            'success_criteria',
+            'name',
+            query,
+          ),
         ],
       };
     }
 
     const records = await db.success_criteria.findAll({
-      attributes: ['id', 'name'],
+      attributes: [ 'id', 'name' ],
       where,
       limit: limit ? Number(limit) : undefined,
       orderBy: [['name', 'ASC']],
@@ -222,4 +243,6 @@ module.exports = class Success_criteriaDBApi {
       label: record.name,
     }));
   }
+
 };
+

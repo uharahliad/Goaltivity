@@ -1,33 +1,47 @@
+
 const goalsFields = {
-  id: { type: 'id', label: 'ID' },
+	id: { type: 'id', label: 'ID' },
 
-  name: {
-    type: 'string',
-    label: 'Name',
+    name: { type: 'string', label: 'Name',
 
-    options: [{ value: 'value', label: 'value' }],
-  },
+    options: [
 
-  category: {
-    type: 'relation_one',
-    label: 'Category',
+    { value: 'value', label: 'value' },
 
-    options: [{ value: 'value', label: 'value' }],
-  },
+]
 
-  author: {
-    type: 'relation_one',
-    label: 'Author',
+    },
 
-    options: [{ value: 'value', label: 'value' }],
-  },
+    category: { type: 'relation_one', label: 'Category',
 
-  award: {
-    type: 'string',
-    label: 'Award',
+    options: [
 
-    options: [{ value: 'value', label: 'value' }],
-  },
-};
+    { value: 'value', label: 'value' },
+
+]
+
+    },
+
+    author: { type: 'relation_one', label: 'Author',
+
+    options: [
+
+    { value: 'value', label: 'value' },
+
+]
+
+    },
+
+    award: { type: 'string', label: 'Award',
+
+    options: [
+
+    { value: 'value', label: 'value' },
+
+]
+
+    },
+
+}
 
 export default goalsFields;

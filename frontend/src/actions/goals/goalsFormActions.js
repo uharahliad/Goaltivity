@@ -17,14 +17,14 @@ const actions = {
         type: 'GOALS_FORM_FIND_STARTED',
       });
 
-      axios.get(`/goals/${id}`).then((res) => {
+      axios.get(`/goals/${id}`).then(res => {
         const record = res.data;
 
         dispatch({
           type: 'GOALS_FORM_FIND_SUCCESS',
           payload: record,
         });
-      });
+      })
     } catch (error) {
       Errors.handle(error);
 
@@ -42,13 +42,13 @@ const actions = {
         type: 'GOALS_FORM_CREATE_STARTED',
       });
 
-      axios.post('/goals', { data: values }).then((res) => {
+      axios.post('/goals', { data: values }).then(res => {
         dispatch({
           type: 'GOALS_FORM_CREATE_SUCCESS',
         });
         showSnackbar({ type: 'success', message: 'Goals created' });
         dispatch(push('/admin/goals'));
-      });
+      })
     } catch (error) {
       Errors.handle(error);
 
@@ -58,13 +58,16 @@ const actions = {
     }
   },
 
-  doUpdate: (id, values, isProfile) => async (dispatch, getState) => {
+  doUpdate: (id, values, isProfile) => async (
+    dispatch,
+    getState,
+  ) => {
     try {
       dispatch({
         type: 'GOALS_FORM_UPDATE_STARTED',
       });
 
-      await axios.put(`/goals/${id}`, { id, data: values });
+      await axios.put(`/goals/${id}`, {id, data: values});
 
       dispatch(doInit());
 

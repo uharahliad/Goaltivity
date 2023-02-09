@@ -5,8 +5,15 @@ import actions from 'actions/goal_categories/goal_categoriesFormActions';
 import { connect } from 'react-redux';
 
 const Goal_categoriesFormPage = (props) => {
-  const { dispatch, match, saveLoading, findLoading, record, currentUser } =
-    props;
+
+  const {
+    dispatch,
+    match,
+    saveLoading,
+    findLoading,
+    record,
+    currentUser
+  } = props;
 
   const [dispatched, setDispatched] = useState(false);
 
@@ -20,9 +27,9 @@ const Goal_categoriesFormPage = (props) => {
 
   const doSubmit = (id, data) => {
     if (isEditing() || isProfile()) {
-      dispatch(actions.doUpdate(id, data, isProfile()));
+      dispatch(actions.doUpdate(id, data, isProfile()))
     } else {
-      dispatch(actions.doCreate(data));
+      dispatch(actions.doCreate(data))
     }
   };
 
@@ -35,29 +42,29 @@ const Goal_categoriesFormPage = (props) => {
         const currentUserId = currentUser.user.id;
         dispatch(actions.doFind(currentUserId));
       } else {
-        dispatch(actions.doNew());
+        dispatch(actions.doNew())
       }
     }
     setDispatched(true);
-  }, [match, dispatch]);
+  }, [match, dispatch])
 
   return (
     <React.Fragment>
       {dispatched && (
         <Goal_categoriesForm
-          saveLoading={saveLoading}
-          findLoading={findLoading}
-          currentUser={currentUser}
-          record={isEditing() || isProfile() ? record : {}}
-          isEditing={isEditing()}
-          isProfile={isProfile()}
-          onSubmit={doSubmit}
-          onCancel={() => dispatch(push('/admin/goal_categories'))}
+        saveLoading={saveLoading}
+        findLoading={findLoading}
+        currentUser={currentUser}
+        record={(isEditing() || isProfile()) ? record : {}}
+        isEditing={isEditing()}
+        isProfile={isProfile()}
+        onSubmit={doSubmit}
+        onCancel={() => dispatch(push('/admin/goal_categories'))}
         />
-      )}
+        )}
     </React.Fragment>
   );
-};
+}
 
 function mapStateToProps(store) {
   return {

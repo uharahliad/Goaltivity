@@ -17,14 +17,14 @@ const actions = {
         type: 'ACTION_ITEMS_FORM_FIND_STARTED',
       });
 
-      axios.get(`/action_items/${id}`).then((res) => {
+      axios.get(`/action_items/${id}`).then(res => {
         const record = res.data;
 
         dispatch({
           type: 'ACTION_ITEMS_FORM_FIND_SUCCESS',
           payload: record,
         });
-      });
+      })
     } catch (error) {
       Errors.handle(error);
 
@@ -42,13 +42,13 @@ const actions = {
         type: 'ACTION_ITEMS_FORM_CREATE_STARTED',
       });
 
-      axios.post('/action_items', { data: values }).then((res) => {
+      axios.post('/action_items', { data: values }).then(res => {
         dispatch({
           type: 'ACTION_ITEMS_FORM_CREATE_SUCCESS',
         });
         showSnackbar({ type: 'success', message: 'Action_items created' });
         dispatch(push('/admin/action_items'));
-      });
+      })
     } catch (error) {
       Errors.handle(error);
 
@@ -58,13 +58,16 @@ const actions = {
     }
   },
 
-  doUpdate: (id, values, isProfile) => async (dispatch, getState) => {
+  doUpdate: (id, values, isProfile) => async (
+    dispatch,
+    getState,
+  ) => {
     try {
       dispatch({
         type: 'ACTION_ITEMS_FORM_UPDATE_STARTED',
       });
 
-      await axios.put(`/action_items/${id}`, { id, data: values });
+      await axios.put(`/action_items/${id}`, {id, data: values});
 
       dispatch(doInit());
 
